@@ -43,9 +43,28 @@ body {
     width: 1182px;
     height: 535px;
     flex-shrink: 0;
-
+    
     border-radius: 30px;
     background: #9EABB0;
+}
+
+.cookie-stacks {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start
+}
+.cookie-img {
+    display: flex;
+    width: 214px;
+    height: auto;
+    padding: 0;
+    margin: 0;
+}
+
+.slot-1, .slot-2 {
+    display: flex;
+    flex-direction: column;
 }
 
 .turn-button {
