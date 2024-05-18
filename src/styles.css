@@ -1,94 +1,94 @@
-@import url('https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Lekton:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Lekton:wght@400;700&display=swap");
 
 body {
-    width: 1280px;
-    height: 720px;
+  width: 1280px;
+  height: 720px;
 
-    background: #EFFBFF;
+  background: #effbff;
 }
 
 .header {
-    align-items: center;
-    display: flex;
+  align-items: center;
+  display: flex;
 
-    width: 591px;
-    height: 124px;
-    flex-direction: row;
-    justify-content: center;
-    flex-shrink: 0;
+  width: 591px;
+  height: 124px;
+  flex-direction: row;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .title {
-    margin-right: 20px;
+  margin-right: 20px;
 
-    color: #006889;
-    text-align: right;
-    font-family: "Kodchasan", sans-serif;
-    font-size: 64px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+  color: #006889;
+  text-align: right;
+  font-family: "Kodchasan", sans-serif;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .subtitle {
-    color: #000;
-    font-family: 'Lekton', sans-serif;
-    font-size: 18px;
-    font-style: italic;
-    font-weight: 400;
-    line-height: normal;
+  color: #000;
+  font-family: "Lekton", sans-serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .game-box {
-    width: 1182px;
-    height: 535px;
-    flex-shrink: 0;
-    
-    border-radius: 30px;
-    background: #9EABB0;
+  width: 1182px;
+  height: 535px;
+  flex-shrink: 0;
+
+  border-radius: 30px;
+  background: #9eabb0;
 }
 
 .cookie-stacks {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
 }
 .cookie-img {
-    display: flex;
-    width: 214px;
-    height: auto;
-    padding: 0;
-    margin: 0;
+  display: flex;
+  width: 214px;
+  height: auto;
+  padding: 0;
+  margin: 0;
 }
 
-.slot-1, .slot-2 {
-    display: flex;
-    flex-direction: column;
+.slot-1,
+.slot-2 {
+  display: flex;
+  flex-direction: column;
 }
 
 .turn-button {
-    display: flex;
-    width: 185px;
-    height: 45px;
-    padding: 9px 42px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
+  display: flex;
+  width: 185px;
+  height: 45px;
+  padding: 9px 42px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 
-    border-radius: 10px;
-    border: 1px solid #006889;
-    background: #EFFBFF;
+  border-radius: 10px;
+  border: 1px solid #006889;
+  background: #effbff;
 
-    color: #006889;
-    font-family: 'Lekton', sans-serif;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+  color: #006889;
+  font-family: "Lekton", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .show-button {
-    
 }
