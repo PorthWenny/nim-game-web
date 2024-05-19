@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "./database.js";
+import { supabase } from "../js/database.js";
 
 export default function login() {
   const [session, setSession] = useState(null);
@@ -41,6 +41,43 @@ export default function login() {
     const { data, error } = await supabase.auth.signOut();
   }
 
+  async function fetchUser() {
+    const session = supabase.auth.getSession();
+
+    if (session) {
+      const { data, error } = await supabase
+        .from("user_info")
+        .select("*")
+        .eq("user_id", session.user);
+
+      if (error) {
+        console.error("Error fetching user info:", error);
+        return;
+      }
+
+      if (data.length > 0) {
+        // User is already in the table, fetch stats
+        const stats = {
+          wins: data[0].wins,
+          loses: data[0].loses,
+          accuracy: data[0].accuracy,
+        };
+        return stats;
+      } else {
+        // User is not in the table, insert user id
+        const { error: insertError } = await supabase
+          .from("user_info")
+          .insert([
+            { user_id: session.user, wins: 0, loses: 0, accuracy: 100 },
+          ]);
+
+        if (insertError) {
+          console.error("Error inserting user info:", insertError);
+        }
+      }
+    }
+  }
+
   return (
     <div>
       {user ? (
@@ -49,7 +86,7 @@ export default function login() {
           <button onClick={logout}>Logout</button>
         </div>
       ) : (
-        <button onClick={githubLogin}>Login with Github</button>
+        <button onClick={(githubLogin, fetchUser)}>Login with Github</button>
       )}
     </div>
   );
