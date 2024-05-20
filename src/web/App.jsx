@@ -37,29 +37,37 @@ function App() {
   };
 
   function endTurn() {
-    alert("Button clicked.");
+    const filteredCookies = cookies.map((row, rowIndex) => {
+      if (rowIndex === selected) {
+        return row.filter((cookie) => !cookie.isSelected);
+      }
+      return row;
+    });
+  
+    setCookies(filteredCookies);
+  
     setSelected(null);
   }
-
-  function changeCookieState() {
-    alert("Cookie state changed.");
-  }
+  
+  
 
   function Cookie(cookie) {
     return (
       <img
         src="cookie-normal.png"
         alt="cookie"
-        className={`cookie-img ${cookie.isSelected ? "gone" : ""}`}
+        className={`cookie-img ${cookie.isSelected ? "invert-selected" : ""} ${
+          cookie.isSelected && selected === null ? "gone" : ""
+        }`}
       />
     );
   }
 
   function selectCookie(index) {
     // select only on one row
-    // if (selected !== null) {
-    //   return;
-    // }
+    if (selected !== index && selected !== null) {
+      return;
+    }
 
     setSelected(index);
     const updatedCookies = cookies.map((row) =>
@@ -69,6 +77,41 @@ function App() {
       (cookie) => !cookie.isSelected
     )[0].isSelected = true;
     setCookies(updatedCookies);
+  }
+
+  function unselectCookie(index) {
+    const updatedCookies = cookies.map((row) =>
+      row.map((cookie) => ({ ...cookie }))
+    );
+    const selectedCookies = updatedCookies[index].filter(
+      (cookie) => cookie.isSelected
+    );
+
+    // Check if the "End Turn" button has been clicked
+    if (selected === null) {
+      // Reset all selected cookies
+      updatedCookies.forEach((row) =>
+        row.forEach((cookie) => {
+          cookie.isSelected = false;
+        })
+      );
+    } else {
+      // Unselect the last selected cookie
+      if (selectedCookies.length > 0) {
+        const lastSelectedCookie = selectedCookies[selectedCookies.length - 1];
+        lastSelectedCookie.isSelected = false;
+      }
+    }
+
+    setCookies(updatedCookies);
+
+    // no more cookies
+    const hasSelectedCookies = updatedCookies.some((row) =>
+      row.some((cookie) => cookie.isSelected)
+    );
+    if (!hasSelectedCookies) {
+      setSelected(null);
+    }
   }
 
   return (
@@ -86,6 +129,10 @@ function App() {
           {cookies.map((cookieRow, index) => (
             <div
               onClick={() => selectCookie(index)}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                unselectCookie(index);
+              }}
               className={`cookie-row-${index + 1}`}
               key={index}
             >

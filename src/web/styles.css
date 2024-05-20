@@ -65,9 +65,13 @@ body {
   transition: filter 3s, -webkit-filter 3s;
 }
 
-.gone {
+.invert-selected {
   -webkit-filter: invert(1);
   filter: invert(1);
+}
+
+.gone {
+  opacity: 0;
 }
 
 .slot-1,
