@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../js/database.js";
+import { supabase } from "./database.js";
+import { calcWinRate, calcAccuracy } from "../nim/calculations.js";
 
 export default function login() {
   const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
   const [stats, setStats] = useState(null);
+  const [openProfile, setOpenProfile] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -63,6 +65,7 @@ export default function login() {
           wins: data[0].wins,
           loses: data[0].loses,
           nim_done: data[0].nim_done,
+          rounds_done: data[0].rounds_done,
         };
         return stats;
       } else {
@@ -89,16 +92,34 @@ export default function login() {
   return (
     <div>
       {user ? (
-        <div>
-          <h1>{user.user_metadata.full_name}</h1>
-          <h2>Wins: { stats?.wins }</h2>
-          <h2>Loses: { stats?.loses }</h2>
-          <h2>Nim Done: { stats?.nim_done }</h2>
-
-          <button onClick={logout}>Logout</button>
+        <div className="profile">
+          <h1 onClick={() => setOpenProfile((prev) => !prev)}>
+            {user.user_metadata.full_name}
+          </h1>
+          {openProfile && (
+            <ul className="dropdown-menu">
+              <li>
+                <b>Win Rate:</b>{" "}
+                {Math.round(calcWinRate(stats?.wins, stats?.loses) * 100) / 100}
+                %
+              </li>
+              <li>
+                <b>Accuracy:</b>{" "}
+                {Math.round(
+                  calcAccuracy(stats?.nim_done, stats?.rounds_done) * 100
+                ) / 100}
+                %
+              </li>
+              <button className="log-button" onClick={logout}>
+                Logout
+              </button>
+            </ul>
+          )}
         </div>
       ) : (
-        <button onClick={githubLogin}>Login with Github</button>
+        <button className="log-button" onClick={githubLogin}>
+          Login with Github
+        </button>
       )}
     </div>
   );
