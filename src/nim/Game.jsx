@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Stack, Box } from "@mui/material";
 import "../web/styles.css";
 
-const initCookies = [
+const initCookies =  [
   [{ id: 1, isSelected: false }],
   [
     { id: 1, isSelected: false },
@@ -30,6 +30,21 @@ const initCookies = [
 export default function Game() {
   const [cookies, setCookies] = useState(initCookies);
   const [selected, setSelected] = useState(null);
+  const [jar, setJar] = useState(initCookies.map((row) => row.length));
+  const [free, setFree] = useState(initCookies.map((row, index) => index));
+
+  useEffect(() => {
+    // Update jar and free arrays whenever cookies state changes
+    const newJar = cookies.map(
+      (row) => row.filter((cookie) => !cookie.isSelected).length
+    );
+    setJar(newJar);
+
+    const newFree = newJar
+      .map((count, index) => (count > 0 ? index : null))
+      .filter((index) => index !== null);
+    setFree(newFree);
+  }, [cookies]);
 
   function endTurn() {
     const filteredCookies = cookies.map((row, rowIndex) => {
@@ -40,8 +55,8 @@ export default function Game() {
     });
 
     setCookies(filteredCookies);
-
     setSelected(null);
+    updateJar(cookies);
   }
 
   function Cookie(cookie) {
@@ -131,7 +146,6 @@ export default function Game() {
                     key={cookie.id}
                     style={{ zIndex: cookieRow.length - cookieIndex }}
                   >
-                    {/* {cookie.isSelected ? 1 : 0} */}
                     <Cookie {...cookie} />
                   </Box>
                 );

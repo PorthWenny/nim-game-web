@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Game from "../nim/Game.jsx";
-import { bestPlay } from "../nim/mechanics.js";
+import Picker from "../nim/roulette/Picker.jsx";
+//import { bestPlay } from "../nim/mechanics.js";
 import "./styles.css";
 
 function App() {
   const [isVisible, setIsVisible] = useState(false);
+  const [bestMove, setBestMove] = useState(null);
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
   };
+
+  // useEffect(() => {
+  //   const move = bestPlay(jar, free);
+  //   setBestMove(move);
+  // }, []);
 
   return (
     <>
@@ -21,11 +28,12 @@ function App() {
       </div>
 
       <div className="game-box">
+        <Picker />
         <Game />
         <div className="show-button" onClick={toggleVisibility}>
           {isVisible ? "Hide Text" : "Show Text"}
         </div>
-        {isVisible && <p> {bestPlay} </p>}
+        {isVisible && <p className="suggestion-box"> {bestMove} </p>}
       </div>
     </>
   );

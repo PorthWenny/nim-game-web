@@ -116,6 +116,7 @@ li {
   border-radius: 15px;
   background-color: white;
   border: 1px solid #006889;
+  cursor: default;
 }
 
 .dropdown-menu::before {
@@ -142,6 +143,8 @@ li {
   font-style: italic;
   font-weight: 200;
   line-height: normal;
+
+  cursor: pointer;
 }
 
 .log-button {
@@ -157,7 +160,10 @@ li {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  cursor: pointer;
 }
 
 .show-button {
+  cursor: pointer;
+  user-select: none;
 }
