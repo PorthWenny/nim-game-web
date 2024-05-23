@@ -5,6 +5,8 @@ body {
   height: 720px;
 
   background: #effbff;
+  zoom: 130%;
+  align-content: center;
 }
 
 .header {

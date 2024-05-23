@@ -35,7 +35,12 @@ const initCookies = [
   ],
 ];
 
-export default function Game({ setBestMove }) {
+export default function Game({
+  setBestMove,
+  user,
+  initialStats,
+  updateUserInfo,
+}) {
   const [cookies, setCookies] = useState(initCookies);
   const [selected, setSelected] = useState(null);
   const [jar, setJar] = useState(initCookies.map((row) => row.length));
@@ -43,14 +48,13 @@ export default function Game({ setBestMove }) {
   const [currentPlayer, setCurrentPlayer] = useState(null);
   const [isComputerMoving, setIsComputerMoving] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
+  const [stats, setStats] = useState(initialStats);
 
-  // set first turn to roulette winner
   useEffect(() => {
     setCurrentPlayer(getWinner() === 0 ? "user" : "computer");
   }, []);
 
   useEffect(() => {
-    // Update currentPlayer whenever winner changes
     setWinnerUpdateCallback((winner) => {
       setCurrentPlayer(winner === 0 ? "user" : "computer");
     });
@@ -66,7 +70,6 @@ export default function Game({ setBestMove }) {
       .filter((index) => index !== null);
     setFree(newFree);
 
-    // Calculate best move whenever `jar` or `free` changes
     const move = bestPlay(newJar, newFree);
     setBestMove(move);
   }, [cookies, setBestMove]);
@@ -82,7 +85,17 @@ export default function Game({ setBestMove }) {
     checkGameEnd(filteredCookies);
   }, [currentPlayer, isComputerMoving, gameEnded]);
 
-  const handleGameEnd = () => {
+  const handleGameEnd = (isWinner) => {
+    const updatedStats = {
+      ...stats,
+      wins: !isWinner ? stats.wins + 1 : stats.wins,
+      loses: isWinner ? stats.loses + 1 : stats.loses,
+      nim_done: stats.nim_done,
+      rounds_done: stats.rounds_done,
+    };
+    setStats(updatedStats);
+    updateUserInfo(user, updatedStats);
+
     setCookies(initCookies);
     setSelected(null);
     setJar(initCookies.map((row) => row.length));
@@ -96,7 +109,7 @@ export default function Game({ setBestMove }) {
   useEffect(() => {
     if (gameEnded) {
       setTimeout(() => {
-        handleGameEnd();
+        handleGameEnd(currentPlayer === "user");
       }, 5000);
     }
   }, [gameEnded]);
@@ -186,6 +199,11 @@ export default function Game({ setBestMove }) {
       setCookies(updatedCookies);
       setIsComputerMoving(false);
       setCurrentPlayer("user");
+
+      setStats((prevStats) => ({
+        ...prevStats,
+        rounds_done: prevStats.rounds_done + 1,
+      }));
     }, 1000);
   };
 

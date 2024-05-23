@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "./database.js";
 import { calcWinRate, calcAccuracy } from "../nim/calculations.js";
 
-export default function login() {
+export default function Login({ onLogin }) {
   const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
   const [stats, setStats] = useState(null);
@@ -12,6 +12,12 @@ export default function login() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user);
+      if (session?.user) {
+        fetchUser(session.user).then((data) => {
+          setStats(data);
+          onLogin(session.user, data);
+        });
+      }
     });
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -20,10 +26,14 @@ export default function login() {
         switch (event) {
           case "SIGNED_IN":
             setUser(session?.user);
-            fetchUser(session.user).then((data) => setStats(data));
+            fetchUser(session.user).then((data) => {
+              setStats(data);
+              onLogin(session.user, data);
+            });
             break;
           case "SIGNED_OUT":
             setUser(null);
+            onLogin(null, null);
             break;
           default:
             break;
@@ -60,7 +70,6 @@ export default function login() {
       }
 
       if (data.length > 0) {
-        // user is already in the table, fetch stats
         const stats = {
           wins: data[0].wins,
           loses: data[0].loses,
@@ -69,7 +78,6 @@ export default function login() {
         };
         return stats;
       } else {
-        // not on tb,
         const { error: insertError } = await supabase
           .from("user_info_tb")
           .insert([
@@ -79,6 +87,7 @@ export default function login() {
               wins: 0,
               loses: 0,
               nim_done: 0,
+              rounds_done: 0,
             },
           ]);
 
