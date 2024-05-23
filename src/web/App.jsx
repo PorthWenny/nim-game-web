@@ -9,7 +9,7 @@ import {
 import "./styles.css";
 import { supabase } from "../auth/database.js";
 
-function App() {
+function App({ initialState, saveState }) {
   const [isVisible, setIsVisible] = useState(false);
   const [bestMove, setBestMove] = useState(null);
   const [isStart, setIsStart] = useState(null);
@@ -53,10 +53,16 @@ function App() {
     });
   }, []);
 
-  const handleGameEnd = () => {
-    console.log("False again");
-    setIsStart(false);
-  };
+  useEffect(() => {
+    if (initialState) {
+      setUser(initialState.user);
+      setStats(initialState.stats);
+    }
+  }, [initialState]);
+
+  useEffect(() => {
+    saveState({ user, stats });
+  }, [user, stats, saveState]);
 
   return (
     <>
@@ -80,7 +86,7 @@ function App() {
               updateUserInfo={updateUserInfo}
             />
             <div className="show-button" onClick={toggleVisibility}>
-              {isVisible ? "Hide Text" : "Show Text"}
+              {isVisible ? "Hide Hint" : "Show Hint"}
             </div>
             {isVisible && <p className="suggestion-box"> {bestMove} </p>}
           </>

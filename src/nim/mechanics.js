@@ -9,28 +9,32 @@ export function handleGameEnd(lastTurn) {
 
 export function bestPlay(jar, free) {
   let count = 0;
-  let highest_index = jar.indexOf(Math.max(...jar));
+  let highestIndex = jar.indexOf(Math.max(...jar));
   let jarCopy = jar.map((x) => x);
 
-  while (free.length != 0) {
-    jarCopy[highest_index] -= 1;
+  while (free.length !== 0) {
+    jarCopy[highestIndex] -= 1;
     count++;
 
-    if (jarCopy[highest_index] == 0) {
-      free = free.filter((item) => item !== highest_index);
-      highest_index = getHighest(jar, free);
+    if (jarCopy[highestIndex] === 0) {
+      free = free.filter((item) => item !== highestIndex);
+      highestIndex = getHighest(jar, free);
       count = 0;
       jarCopy = jar.map((x) => x);
       continue;
     }
 
-    if (getNimSum(jarCopy) == 0) {
+    if (getNimSum(jarCopy) === 0) {
       break;
     }
   }
-  jar[highest_index] = jarCopy[highest_index];
-
-  return count == 0
-    ? "There is no optimal play. Play anything."
-    : `Optimal play: Remove ${count} from Row ${highest_index + 1}.`;
+  jar[highestIndex] = jarCopy[highestIndex];
+  return {
+    message:
+      count === 0
+        ? "There is no optimal play. Play anything."
+        : `Optimal play: Remove ${count} from Row ${highestIndex + 1}.`,
+    highestIndex,
+    count,
+  };
 }

@@ -96,6 +96,8 @@ body {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
 
 li {
@@ -178,5 +180,57 @@ li {
 
 .show-button {
   cursor: pointer;
+  user-select: none;
+}
+
+.winner-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 30px;
+  color: #fff;
+  font-family: "Kodchasan", sans-serif;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  z-index: 1;
+}
+
+.show-button {
+  cursor: pointer;
+  user-select: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1000px;
+
+  border: #006889 1px solid;
+  border-radius: 10px;
+  background: #006889;
+  color: #effbff;
+
+  font-family: "Lekton", sans-serif;
+  padding: 6px 24px;
+}
+
+.suggestion-box {
+  color: #000;
+  font-family: "Lekton", sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  position: absolute;
+  bottom: 10px;
+  cursor: default;
   user-select: none;
 }

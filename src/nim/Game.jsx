@@ -61,20 +61,6 @@ export default function Game({
   }, []);
 
   useEffect(() => {
-    const newJar = cookies.map(
-      (row) => row.filter((cookie) => !cookie.isSelected).length
-    );
-    setJar(newJar);
-    const newFree = newJar
-      .map((count, index) => (count > 0 ? index : null))
-      .filter((index) => index !== null);
-    setFree(newFree);
-
-    const move = bestPlay(newJar, newFree);
-    setBestMove(move);
-  }, [cookies, setBestMove]);
-
-  useEffect(() => {
     if (currentPlayer === "computer" && !isComputerMoving && !gameEnded) {
       setIsComputerMoving(true);
       setCurrentPlayer("computer");
@@ -124,7 +110,7 @@ export default function Game({
       .filter((index) => index !== null);
     setFree(newFree);
 
-    const move = bestPlay(newJar, newFree);
+    const move = bestPlay(newJar, newFree).message;
     setBestMove(move);
   }, [cookies, setBestMove, gameEnded]);
 
@@ -136,10 +122,38 @@ export default function Game({
   });
 
   const endTurn = () => {
-    setCookies(filteredCookies);
-    setSelected(null);
-    setCurrentPlayer("computer");
-    checkGameEnd(filteredCookies);
+    const anyCookiesSelected = cookies.some((row) =>
+      row.some((cookie) => cookie.isSelected)
+    );
+
+    if (anyCookiesSelected) {
+      const newJar = cookies.map(
+        (row) => row.filter((cookie) => !cookie.isSelected).length
+      );
+
+      const newFree = newJar
+        .map((count, index) => (count > 0 ? index : null))
+        .filter((index) => index !== null);
+
+      const move = bestPlay(newJar, newFree);
+
+      setStats((prevStats) => ({
+        ...prevStats,
+        rounds_done: prevStats.rounds_done + 1,
+      }));
+
+      if ((move.message = "There is no optimal play. Play anything.")) {
+        setStats((prevStats) => ({
+          ...prevStats,
+          nim_done: prevStats.nim_done + 1,
+        }));
+      }
+
+      setCookies(filteredCookies);
+      setSelected(null);
+      setCurrentPlayer("computer");
+      checkGameEnd(filteredCookies);
+    }
   };
 
   const checkGameEnd = (filteredCookies) => {
@@ -199,11 +213,6 @@ export default function Game({
       setCookies(updatedCookies);
       setIsComputerMoving(false);
       setCurrentPlayer("user");
-
-      setStats((prevStats) => ({
-        ...prevStats,
-        rounds_done: prevStats.rounds_done + 1,
-      }));
     }, 1000);
   };
 
@@ -300,7 +309,11 @@ export default function Game({
       <button
         className="turn-button"
         onClick={endTurn}
-        disabled={isComputerMoving || currentPlayer !== "user"}
+        disabled={
+          isComputerMoving ||
+          currentPlayer !== "user" ||
+          !cookies.some((row) => row.some((cookie) => cookie.isSelected))
+        }
       >
         END TURN
       </button>
