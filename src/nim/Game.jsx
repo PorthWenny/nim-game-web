@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Stack, Box } from "@mui/material";
 import "../web/styles.css";
+import { getWinner, setWinnerUpdateCallback } from "./winnerHandler";
 
-const initCookies =  [
+const initCookies = [
   [{ id: 1, isSelected: false }],
   [
     { id: 1, isSelected: false },
@@ -32,6 +33,19 @@ export default function Game() {
   const [selected, setSelected] = useState(null);
   const [jar, setJar] = useState(initCookies.map((row) => row.length));
   const [free, setFree] = useState(initCookies.map((row, index) => index));
+  const [currentPlayer, setCurrentPlayer] = useState(null);
+  
+  useEffect(() => {
+    // Update currentPlayer whenever winner changes
+    setCurrentPlayer(getWinner() === 0 ? "user" : "computer");
+  }, []);
+
+  useEffect(() => {
+    // Update currentPlayer whenever winner changes
+    setWinnerUpdateCallback((winner) => {
+      setCurrentPlayer(winner === 0 ? "user" : "computer");
+    });
+  }, []);
 
   useEffect(() => {
     // Update jar and free arrays whenever cookies state changes
@@ -154,6 +168,7 @@ export default function Game() {
           </div>
         ))}
       </div>
+      <div>Current Player: {currentPlayer}</div>
       <button className="turn-button" onClick={endTurn}>
         END TURN
       </button>

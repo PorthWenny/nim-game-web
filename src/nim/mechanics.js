@@ -3,9 +3,7 @@ import { getNimSum, getHighest } from "./calculations.js";
 
 export function handleGameEnd(lastTurn) {
   if (lastTurn == "computer") {
-    // loss logic
   } else {
-    // win logic
   }
 }
 
@@ -42,7 +40,12 @@ export function bestPlay(jar, free) {
   if (count == 0) {
     play_text = "There is no optimal play. Play anything.";
   } else {
-    play_text = "Optimal play: Remove " + count + " from Row " + (highest_index + 1) + ".";
+    play_text =
+      "Optimal play: Remove " +
+      count +
+      " from Row " +
+      (highest_index + 1) +
+      ".";
   }
 
   return play_text;
