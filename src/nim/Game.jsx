@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import { Stack, Box } from "@mui/material";
 import "../web/styles.css";
-import { getWinner, setWinnerUpdateCallback } from "./winnerHandler";
-import { getNimSum, getHighest, isWinningMove } from "./calculations.js";
+import {
+  getWinner,
+  setWinnerUpdateCallback,
+  setGameStart,
+} from "./parents/winnerHandler.js";
+import { isWinningMove } from "./calculations.js";
 import { bestPlay } from "./mechanics.js";
+import SkibidiOhioRizzGyat from "./parents/SkibidiOhioRizzGyat.jsx";
 
 const initCookies = [
   [{ id: 1, isSelected: false }],
@@ -35,8 +40,21 @@ export default function Game({ setBestMove }) {
   const [selected, setSelected] = useState(null);
   const [jar, setJar] = useState(initCookies.map((row) => row.length));
   const [free, setFree] = useState(initCookies.map((row, index) => index));
-  const [currentPlayer, setCurrentPlayer] = useState("user");
+  const [currentPlayer, setCurrentPlayer] = useState(null);
   const [isComputerMoving, setIsComputerMoving] = useState(false);
+  const [gameEnded, setGameEnded] = useState(false);
+
+  // set first turn to roulette winner
+  useEffect(() => {
+    setCurrentPlayer(getWinner() === 0 ? "user" : "computer");
+  }, []);
+
+  useEffect(() => {
+    // Update currentPlayer whenever winner changes
+    setWinnerUpdateCallback((winner) => {
+      setCurrentPlayer(winner === 0 ? "user" : "computer");
+    });
+  }, []);
 
   useEffect(() => {
     const newJar = cookies.map(
@@ -54,25 +72,71 @@ export default function Game({ setBestMove }) {
   }, [cookies, setBestMove]);
 
   useEffect(() => {
-    if (currentPlayer === "computer" && !isComputerMoving) {
+    if (currentPlayer === "computer" && !isComputerMoving && !gameEnded) {
       setIsComputerMoving(true);
+      setCurrentPlayer("computer");
       setTimeout(() => {
         computerTurn();
       }, 1000);
     }
-  }, [currentPlayer, isComputerMoving]);
+    checkGameEnd(filteredCookies);
+  }, [currentPlayer, isComputerMoving, gameEnded]);
+
+  const handleGameEnd = () => {
+    setCookies(initCookies);
+    setSelected(null);
+    setJar(initCookies.map((row) => row.length));
+    setFree(initCookies.map((row, index) => index));
+    setCurrentPlayer(null);
+    setIsComputerMoving(false);
+    setGameEnded(false);
+    setGameStart(false);
+  };
+
+  useEffect(() => {
+    if (gameEnded) {
+      setTimeout(() => {
+        handleGameEnd();
+      }, 5000);
+    }
+  }, [gameEnded]);
+
+  useEffect(() => {
+    const newJar = cookies.map(
+      (row) => row.filter((cookie) => !cookie.isSelected).length
+    );
+    setJar(newJar);
+    const newFree = newJar
+      .map((count, index) => (count > 0 ? index : null))
+      .filter((index) => index !== null);
+    setFree(newFree);
+
+    const move = bestPlay(newJar, newFree);
+    setBestMove(move);
+  }, [cookies, setBestMove, gameEnded]);
+
+  const filteredCookies = cookies.map((row, rowIndex) => {
+    if (rowIndex === selected) {
+      return row.filter((cookie) => !cookie.isSelected);
+    }
+    return row;
+  });
 
   const endTurn = () => {
-    const filteredCookies = cookies.map((row, rowIndex) => {
-      if (rowIndex === selected) {
-        return row.filter((cookie) => !cookie.isSelected);
-      }
-      return row;
-    });
-
     setCookies(filteredCookies);
     setSelected(null);
     setCurrentPlayer("computer");
+    checkGameEnd(filteredCookies);
+  };
+
+  const checkGameEnd = (filteredCookies) => {
+    const totalCookies = filteredCookies.reduce(
+      (total, row) => total + row.length,
+      0
+    );
+    if (totalCookies === 0) {
+      setGameEnded(true);
+    }
   };
 
   const computerTurn = () => {
@@ -192,6 +256,7 @@ export default function Game({ setBestMove }) {
 
   return (
     <>
+      {gameEnded && <SkibidiOhioRizzGyat lastToPlay={currentPlayer} />}
       <div className="cookie-stacks">
         {cookies.map((cookieRow, rowIndex) => (
           <div className={`cookie-row-${rowIndex + 1}`} key={rowIndex}>

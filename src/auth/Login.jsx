@@ -60,7 +60,7 @@ export default function login() {
       }
 
       if (data.length > 0) {
-        // User is already in the table, fetch stats
+        // user is already in the table, fetch stats
         const stats = {
           wins: data[0].wins,
           loses: data[0].loses,
@@ -69,7 +69,7 @@ export default function login() {
         };
         return stats;
       } else {
-        // User is not in the table, insert user id
+        // not on tb,
         const { error: insertError } = await supabase
           .from("user_info_tb")
           .insert([
@@ -95,6 +95,7 @@ export default function login() {
         <div className="profile">
           <h1 onClick={() => setOpenProfile((prev) => !prev)}>
             {user.user_metadata.full_name}
+            <img src={user.user_metadata.avatar_url} alt="avatar" />
           </h1>
           {openProfile && (
             <ul className="dropdown-menu">

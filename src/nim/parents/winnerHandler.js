@@ -31,6 +31,5 @@ export function getGameStart() {
 }
 
 export function setGameStartUpdateCallback(callback) {
-  console.log("Went to: " + gameStart);
   gameStartUpdateCallback = callback;
 }

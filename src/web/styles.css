@@ -10,12 +10,10 @@ body {
 .header {
   align-items: center;
   display: flex;
-
-  width: 591px;
-  height: 124px;
   flex-direction: row;
+
   justify-content: center;
-  flex-shrink: 0;
+  margin-left: 130px;
 }
 
 .title {
@@ -96,6 +94,18 @@ body {
   line-height: normal;
 }
 
+.game-box {
+  width: 1182px;
+  height: 535px;
+  flex-shrink: 0;
+  border-radius: 30px;
+  background: #9eabb0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 li {
   margin-bottom: 10px;
 }
@@ -125,7 +135,6 @@ li {
   border-left: 1px solid #006889;
   border-top: 1px solid #006889;
 }
-
 .profile {
   display: flex;
   flex-direction: column;
@@ -133,12 +142,22 @@ li {
 
   color: #006889;
   font-family: "Lekton", sans-serif;
-  font-size: 15px;
+  font-size: 10px;
   font-style: italic;
   font-weight: 200;
   line-height: normal;
 
   cursor: pointer;
+  margin-left: 210px;
+  align-content: center;
+}
+
+.profile img {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #006889;
+  border-radius: 50%;
+  margin-left: 10px;
 }
 
 .log-button {
@@ -161,6 +180,9 @@ li {
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  width: 10px;
+  height: 10px;
 }
 
 .show-button {

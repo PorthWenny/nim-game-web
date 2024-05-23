@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Wheel } from "react-custom-roulette";
 import "../web/styles.css";
-import { setWinner, setGameStart } from "./winnerHandler";
+import { setWinner, setGameStart } from "./parents/winnerHandler";
 
 const data = [
   { image: { uri: "roulette/user.png" } },
