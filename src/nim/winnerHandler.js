@@ -16,4 +16,21 @@ export function setWinnerUpdateCallback(callback) {
   winnerUpdateCallback = callback;
 }
 
-export function setGameStart() {}
+let gameStart = false;
+let gameStartUpdateCallback = false;
+
+export function setGameStart(isStart) {
+  gameStart = isStart;
+  if (gameStartUpdateCallback) {
+    gameStartUpdateCallback(gameStart);
+  }
+}
+
+export function getGameStart() {
+  return gameStart;
+}
+
+export function setGameStartUpdateCallback(callback) {
+  console.log("Went to: " + gameStart);
+  gameStartUpdateCallback = callback;
+}

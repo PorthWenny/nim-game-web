@@ -29,3 +29,9 @@ export function getNimSum(jar) {
 
   return nim_sum;
 }
+
+export function isWinningMove(jar, rowIndex, removeCount) {
+  const jarCopy = jar.slice();
+  jarCopy[rowIndex] -= removeCount;
+  return getNimSum(jarCopy) === 0;
+}

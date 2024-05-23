@@ -7,8 +7,6 @@ export function handleGameEnd(lastTurn) {
   }
 }
 
-let play_text = "";
-
 export function bestPlay(jar, free) {
   let count = 0;
   let highest_index = jar.indexOf(Math.max(...jar));
@@ -18,15 +16,10 @@ export function bestPlay(jar, free) {
     jarCopy[highest_index] -= 1;
     count++;
 
-    console.log(jarCopy);
-    console.log("Current Nim Sum: ", getNimSum(jarCopy));
-
     if (jarCopy[highest_index] == 0) {
       free = free.filter((item) => item !== highest_index);
-
       highest_index = getHighest(jar, free);
       count = 0;
-
       jarCopy = jar.map((x) => x);
       continue;
     }
@@ -37,16 +30,7 @@ export function bestPlay(jar, free) {
   }
   jar[highest_index] = jarCopy[highest_index];
 
-  if (count == 0) {
-    play_text = "There is no optimal play. Play anything.";
-  } else {
-    play_text =
-      "Optimal play: Remove " +
-      count +
-      " from Row " +
-      (highest_index + 1) +
-      ".";
-  }
-
-  return play_text;
+  return count == 0
+    ? "There is no optimal play. Play anything."
+    : `Optimal play: Remove ${count} from Row ${highest_index + 1}.`;
 }

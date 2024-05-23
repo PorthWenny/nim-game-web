@@ -1,31 +1,21 @@
 import React, { useState } from "react";
 import { Wheel } from "react-custom-roulette";
 import "../web/styles.css";
-import { setWinner } from "./winnerHandler";
+import { setWinner, setGameStart } from "./winnerHandler";
 
 const data = [
   { image: { uri: "roulette/user.png" } },
   { image: { uri: "roulette/computer.png" } },
 ];
 
-export function sendWinner(win) {
-  if (win == 0) {
-    console.log("User win.");
-  } else {
-    console.log("Computer win.");
-  }
-}
-
 export default () => {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
 
   const handleSpinClick = () => {
     const newPrizeNumber = Math.floor(Math.random() * data.length);
     setPrizeNumber(newPrizeNumber);
     setMustSpin(true);
-    setIsVisible(false);
   };
 
   return (
@@ -42,6 +32,9 @@ export default () => {
           onStopSpinning={() => {
             setMustSpin(false);
             setWinner(prizeNumber);
+            setTimeout(() => {
+              setGameStart(true);
+            }, 2000);
           }}
         />
         <button className="turn-button" onClick={handleSpinClick}>
