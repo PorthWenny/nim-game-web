@@ -108,8 +108,8 @@ li {
 .dropdown-menu {
   list-style-type: none;
   position: absolute;
-  top: 100%; /* Position it below the profile container */
-  left: 12; /* Align to the left of the profile container */
+  top: 100%; 
+  left: 12; 
   width: 100px;
   padding: 15px;
   border-radius: 15px;

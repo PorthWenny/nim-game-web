@@ -109,12 +109,15 @@ export default function Login({ onLogin }) {
           {openProfile && (
             <ul className="dropdown-menu">
               <li>
-                <b>Win Rate:</b>{" "}
+                <b>Win Rate:</b>
+                <br></br>{" "}
                 {Math.round(calcWinRate(stats?.wins, stats?.loses) * 100) / 100}
                 %
               </li>
               <li>
-                <b>Accuracy:</b>{" "}
+                <b>
+                  Accuracy:<br></br>
+                </b>{" "}
                 {Math.round(
                   calcAccuracy(stats?.nim_done, stats?.rounds_done) * 100
                 ) / 100}
