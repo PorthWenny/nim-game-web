@@ -1,12 +1,24 @@
-# nim-game-web
+# Nim Game on the Web
 
-## Build
+Welcome to the Nim Game project! This web application allows you to play the classic Nim game against either a friend or an AI. The goal is to avoid being the player who takes the last object from the heap. 
 
-Used React + Vite template which provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
+- Play against a friend or an AI opponent.
+- Responsive design for mobile and desktop users.
+- Easy-to-understand rules for new players.
 
-Currently, two official plugins are available:
+## How to Play
+1. Select the mode: Player vs Player or Player vs AI.
+2. Decide who goes first selecting the starting player.
+3. Take turns to remove objects from the heap(s).
+4. The player forced to take the last object loses the game.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/PorthWenny/nim-game-web.git
+   ```
+2. Open `index.html` in your web browser to start playing!
 
-## Dependencies
+## Contributing
+Feel free to submit issues or pull requests if you'd like to contribute or improve the game.
