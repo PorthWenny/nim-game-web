@@ -1,16 +1,15 @@
-# Nim Game on the Web
+# Nim Game on the Web 🖥️
 
-Welcome to the Nim Game project! This web application allows you to play the classic Nim game against either a friend or an AI. The goal is to avoid being the player who takes the last object from the heap. 
+Welcome to the Nim Game project! This web application allows you to play the classic Nim game against an AI that calculates the optimal play every round. The goal is to avoid being the player who takes the last object from the heap. 
 
 ## Features
-- Play against a friend or an AI opponent.
 - Responsive design for mobile and desktop users.
+- Github connection to track your win percentage.
 - Easy-to-understand rules for new players.
 
 ## How to Play
-1. Select the mode: Player vs Player or Player vs AI.
 2. Decide who goes first selecting the starting player.
-3. Take turns to remove objects from the heap(s).
+3. Take turns to remove objects from the heap(s). Left-click to select from a stack, right-click to remove from a selection.
 4. The player forced to take the last object loses the game.
 
 ## Getting Started
